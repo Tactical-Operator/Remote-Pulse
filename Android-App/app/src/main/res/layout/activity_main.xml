@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#000000"
+    android:padding="24dp"
+
+    tools:context=".MainActivity">
+
+    <!--
+        Application title.
+
+        Displays the Remote Pulse name at the top
+        of the connection screen.
+
+        The vertical chain constraints position the title,
+        server address field, and Connect button together.
+    -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remote Pulse"
+        android:textColor="#FFFFFF"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/serverAddressInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.40" />
+
+
+    <!--
+        Server address input field.
+
+        The user enters the IP address and port of the
+        computer running the Remote Pulse Spring Boot server.
+
+        Example:
+        192.168.31.78:8080
+
+        MainActivity reads this value when the user
+        presses the Connect button.
+
+        inputType="textUri" allows the user to enter
+        an address containing numbers, dots, and a port.
+    -->
+    <EditText
+        android:id="@+id/serverAddressInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="192.168.31.78:8080"
+        android:inputType="textUri"
+        android:singleLine="true"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
+        android:backgroundTint="#39FF14"
+        app:layout_constraintBottom_toTopOf="@id/connectButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText" />
+
+
+    <!--
+        Connect button.
+
+        When pressed, MainActivity:
+        1. Reads the server address entered by the user.
+        2. Sends an HTTP GET request to /api/tiles.
+        3. Checks whether the Spring Boot server responds.
+        4. Opens TileActivity when the connection succeeds.
+
+        The button uses a neon green background
+        to match the Remote Pulse interface.
+    -->
+    <Button
+        android:id="@+id/connectButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Connect"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:backgroundTint="#39FF14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/serverAddressInput" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

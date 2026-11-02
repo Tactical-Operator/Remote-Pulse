@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Remote Pulse</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         Heading
+         ========================= -->
+
+    <h1>Remote Pulse</h1>
+
+    <p id="server-address">
+        Server - Loading...
+    </p>
+
+
+    <!-- =========================
+         Main Tile Grid
+         18 tiles are created dynamically by JavaScript
+         ========================= -->
+
+    <div id="tile-container" class="tile-container">
+    </div>
+
+
+    <!-- =========================
+         Configuration Modal
+         ========================= -->
+
+    <div id="config-modal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>
+                Configure Tile
+            </h2>
+
+            <p id="config-slot">
+            </p>
+
+            <button type="button" id="installed-app-button">
+                Installed Application
+            </button>
+
+            <button type="button" id="custom-app-button">
+                Custom App
+            </button>
+
+            <button type="button" id="website-button">
+                Website
+            </button>
+
+            <button type="button" id="system-button-button">
+                System Button
+            </button>
+
+            <button type="button" id="keyboard-shortcut-button">
+                Keyboard Shortcuts
+            </button>
+
+            <button type="button" id="change-icon-button">
+                Change Icon
+            </button>
+
+            <!--
+                Hidden when the tile is empty.
+
+                JavaScript will show this button
+                when the selected tile contains:
+
+                - Installed App
+                - Custom App
+                - Website
+                - Custom Icon
+            -->
+
+            <button type="button"
+                    id="delete-configuration-button"
+                    class="hidden">
+                Delete Configuration
+            </button>
+
+            <button type="button" id="config-cancel-button">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         Delete Configuration Modal
+         ========================= -->
+
+    <div id="delete-configuration-modal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>
+                Delete Configuration
+            </h2>
+
+            <p>
+                Do you want to delete:
+            </p>
+
+            <p id="delete-configuration-name">
+            </p>
+
+            <button type="button" id="delete-configuration-yes-button">
+                Yes
+            </button>
+
+            <button type="button" id="delete-configuration-no-button">
+                No
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         Change Icon Modal
+         ========================= -->
+
+    <div id="change-icon-modal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>
+                Change Icon
+            </h2>
+
+            <p id="change-icon-slot">
+            </p>
+
+            <label for="change-icon-file">
+                Select Icon
+            </label>
+
+            <input type="file"
+                   id="change-icon-file"
+                   accept=".png,.jpg,.jpeg">
+
+            <button type="button" id="change-icon-save-button">
+                Save
+            </button>
+
+            <button type="button" id="change-icon-close-button">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         Installed Applications Modal
+         ========================= -->
+
+    <div id="installed-app-modal" class="modal hidden">
+
+        <div class="modal-content installed-app-content">
+
+            <h2>
+                Installed Applications
+            </h2>
+
+            <p id="installed-app-slot">
+            </p>
+
+            <input type="text"
+                   id="installed-app-search"
+                   placeholder="Search applications..."
+                   autocomplete="off">
+
+            <div id="installed-app-list" class="installed-app-list">
+            </div>
+
+            <p id="installed-app-selected">
+                Selected: None
+            </p>
+
+            <label for="installed-app-custom-icon">
+                Custom Icon
+            </label>
+
+            <input type="file"
+                   id="installed-app-custom-icon"
+                   accept=".png,.jpg,.jpeg">
+
+            <button type="button" id="installed-app-save-button">
+                Save
+            </button>
+
+            <button type="button" id="installed-app-close-button">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         Custom Application Modal
+         ========================= -->
+
+    <div id="custom-app-modal" class="modal hidden">
+
+        <div class="modal-content custom-app-content">
+
+            <h2>
+                Custom Application
+            </h2>
+
+            <p id="custom-app-slot">
+            </p>
+
+            <label for="custom-app-path">
+                EXE Path
+            </label>
+
+            <input type="text"
+                   id="custom-app-path"
+                   placeholder="Paste EXE path here..."
+                   autocomplete="off">
+
+            <p id="custom-app-name">
+                Application: -
+            </p>
+
+            <label for="custom-app-custom-icon">
+                Custom Icon
+            </label>
+
+            <input type="file"
+                   id="custom-app-custom-icon"
+                   accept=".png,.jpg,.jpeg">
+
+            <button type="button" id="custom-app-save-button">
+                Save
+            </button>
+
+            <button type="button" id="custom-app-close-button">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         Website Modal
+         ========================= -->
+
+    <div id="website-modal" class="modal hidden">
+
+        <div class="modal-content website-content">
+
+            <h2>
+                Website Configuration
+            </h2>
+
+            <p id="website-slot">
+            </p>
+
+            <label for="website-url">
+                Website URL
+            </label>
+
+            <input type="text"
+                   id="website-url"
+                   placeholder="https://example.com"
+                   autocomplete="off">
+
+            <p id="website-name">
+                Website: -
+            </p>
+
+            <label for="website-custom-icon">
+                Custom Icon
+            </label>
+
+            <input type="file"
+                   id="website-custom-icon"
+                   accept=".png,.jpg,.jpeg">
+
+            <button type="button" id="website-save-button">
+                Save
+            </button>
+
+            <button type="button" id="website-close-button">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         System Button Modal
+         ========================= -->
+
+    <div id="system-button-modal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>
+                System Button
+            </h2>
+
+            <p id="system-button-slot">
+            </p>
+
+            <button type="button"
+                    class="system-button-option"
+                    data-action="MIC_TOGGLE">
+                Microphone
+            </button>
+
+            <button type="button"
+                    class="system-button-option"
+                    data-action="VOLUME_UP">
+                Volume Up
+            </button>
+
+            <button type="button"
+                    class="system-button-option"
+                    data-action="VOLUME_DOWN">
+                Volume Down
+            </button>
+
+            <button type="button"
+                    class="system-button-option"
+                    data-action="MUTE_TOGGLE">
+                Mute
+            </button>
+
+            <button type="button"
+                    class="system-button-option"
+                    data-action="MEDIA_PLAY_PAUSE">
+                Play / Pause
+            </button>
+
+            <button type="button"
+                    class="system-button-option"
+                    data-action="PRINT_SCREEN">
+                Print Screen
+            </button>
+
+            <button type="button"
+                    class="system-button-option"
+                    data-action="FULLSCREEN">
+                Fullscreen
+            </button>
+
+            <button type="button" id="system-button-close-button">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         Keyboard Shortcuts Modal
+         ========================= -->
+
+    <div id="keyboard-shortcut-modal" class="modal hidden">
+
+        <div class="modal-content keyboard-shortcut-content">
+
+            <h2>
+                Keyboard Shortcuts
+            </h2>
+
+            <p id="keyboard-shortcut-slot">
+            </p>
+
+            <!-- Shortcut Name -->
+
+            <label for="shortcut-name">
+                Shortcut Name
+            </label>
+
+            <input type="text"
+                   id="shortcut-name"
+                   placeholder="e.g. Discord Mute"
+                   autocomplete="off">
+
+            <!-- Shortcut Input -->
+
+            <label for="shortcut-input">
+                Keyboard Shortcut
+            </label>
+
+            <div class="shortcut-input-container">
+
+                <input type="text"
+                       id="shortcut-input"
+                       placeholder="e.g. CTRL + SHIFT + 9"
+                       autocomplete="off"
+                       readonly>
+
+                <button type="button"
+                        id="record-shortcut-button">
+                    Record Shortcut
+                </button>
+
+            </div>
+
+            <p id="keyboard-shortcut-error"></p>
+
+            <!-- Custom Icon -->
+
+            <label for="shortcut-icon-file">
+                Custom Icon
+            </label>
+
+            <input type="file"
+                   id="shortcut-icon-file"
+                   accept=".png,.jpg,.jpeg">
+
+            <img id="shortcut-icon-preview"
+                 class="hidden"
+                 alt="Shortcut icon preview">
+
+            <!-- Actions -->
+
+            <button type="button"
+                    id="keyboard-shortcut-save-button">
+                Save
+            </button>
+
+            <button type="button"
+                    id="keyboard-shortcut-cancel-button">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         JavaScript
+         ========================= -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

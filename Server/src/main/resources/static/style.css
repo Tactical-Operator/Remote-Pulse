@@ -1,0 +1,465 @@
+
+/* =========================
+   General Page
+   ========================= */
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* =========================
+   Heading
+   ========================= */
+
+h1 {
+    margin: 0 0 4px 0;
+    font-size: 26px;
+    text-align: center;
+}
+
+/* =========================
+   Server Address
+   ========================= */
+
+#server-address {
+    margin: 0 0 18px 0;
+    color: #2bff00;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+}
+
+/* =========================
+   Tile Container
+   ========================= */
+
+.tile-container {
+    width: 410px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 130px);
+    gap: 10px;
+    justify-content: center;
+}
+
+/* =========================
+   Tile
+   ========================= */
+
+.tile {
+    width: 130px;
+    height: 130px;
+    box-sizing: border-box;
+    border: 2px solid #666;
+    border-radius: 10px;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.tile:hover {
+    background: #111;
+    border-color: #888;
+    transform: scale(1.02);
+}
+
+/* =========================
+   Configured Tile Icon
+   ========================= */
+
+.tile-icon {
+    width: 88%;
+    height: 88%;
+    object-fit: contain;
+    display: block;
+}
+
+/* =========================
+   Empty Tile
+   ========================= */
+
+.empty-tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    color: #666;
+}
+
+.empty-tile:hover {
+    color: #aaa;
+    background: #111;
+}
+
+.empty-tile-question {
+    font-size: 58px;
+    font-weight: bold;
+    line-height: 1;
+    user-select: none;
+}
+
+/* =========================
+   Modal
+   ========================= */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================
+   Modal Content
+   ========================= */
+
+.modal-content {
+    width: 400px;
+    padding: 30px;
+    border-radius: 15px;
+    background: #1c1c1c;
+    border: 1px solid #333;
+    box-sizing: border-box;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    color: #aaa;
+}
+
+/* =========================
+   Configuration Buttons
+   ========================= */
+
+.modal-content button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #333;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.modal-content button:hover {
+    background: #444;
+}
+
+/* =========================
+   Shared Form Inputs
+   ========================= */
+
+.modal-content input[type="text"],
+.modal-content input[type="url"],
+.modal-content input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.modal-content input:focus {
+    border-color: #888;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 5px;
+    text-align: left;
+    font-size: 15px;
+    color: #ddd;
+}
+
+/* =========================
+   Installed App Modal
+   ========================= */
+
+.installed-app-content {
+    width: 500px;
+}
+
+#installed-app-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+#installed-app-search:focus {
+    border-color: #777;
+}
+
+.installed-app-list {
+    max-height: 350px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.installed-app-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: #252525;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.installed-app-item:hover {
+    background: #333;
+}
+
+.installed-app-item-name {
+    font-size: 14px;
+    color: white;
+}
+
+/* =========================
+   Custom App
+   ========================= */
+
+.custom-app-content {
+    width: 420px;
+}
+
+.custom-app-content label {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 14px;
+}
+
+#custom-app-path {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+#custom-app-path:focus {
+    border-color: #777;
+}
+
+#custom-app-name {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 14px;
+    color: #aaa;
+}
+
+#custom-app-save-button {
+    background: #2d7d46 !important;
+}
+
+#custom-app-save-button:hover {
+    background: #369653 !important;
+}
+
+/* =========================
+   Website
+   ========================= */
+
+.website-content {
+    width: 420px;
+}
+
+.website-content label {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 14px;
+}
+
+#website-url {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+#website-url:focus {
+    border-color: #777;
+}
+
+#website-name {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 14px;
+    color: #aaa;
+}
+
+#website-save-button {
+    background: #2d7d46 !important;
+}
+
+#website-save-button:hover {
+    background: #369653 !important;
+}
+
+/* =========================
+   Change Icon
+   ========================= */
+
+#change-icon-file {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+#change-icon-save-button {
+    background: #2d7d46 !important;
+}
+
+#change-icon-save-button:hover {
+    background: #369653 !important;
+}
+
+/* =========================
+   Keyboard Shortcut Modal
+   ========================= */
+
+.keyboard-shortcut-content {
+    width: 480px;
+    padding: 35px;
+}
+
+.keyboard-shortcut-content h2 {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+#keyboard-shortcut-slot {
+    margin-bottom: 25px;
+    font-size: 15px;
+}
+
+#shortcut-name,
+#shortcut-input {
+    width: 100%;
+    min-height: 52px;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    margin-top: 8px;
+    margin-bottom: 22px;
+    border: 1px solid #484848;
+    border-radius: 9px;
+    background: #101010;
+    color: white;
+    font-size: 18px;
+}
+
+#shortcut-input {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#shortcut-name:focus,
+#shortcut-input:focus {
+    border-color: #888;
+    outline: none;
+}
+
+#keyboard-shortcut-error {
+    min-height: 20px;
+    margin: 0 0 15px;
+    color: #ff7777;
+    font-size: 14px;
+    text-align: left;
+}
+
+#keyboard-shortcut-save-button {
+    background: #2d7d46;
+    padding: 14px;
+    font-size: 17px;
+}
+
+#keyboard-shortcut-save-button:hover {
+    background: #369653;
+}
+
+/* =========================
+   Custom Icon Preview
+   Shared by all tile types
+   ========================= */
+
+.custom-icon-preview {
+    display: block;
+    width: 90px;
+    height: 90px;
+    margin: 4px auto 18px;
+    padding: 8px;
+    object-fit: contain;
+    background: #101010;
+    border: 1px solid #444;
+    border-radius: 10px;
+}
+
+.custom-icon-preview.hidden {
+    display: none !important;
+}
+
+/* =========================
+   Responsive Modal
+   ========================= */
+
+@media (max-width: 520px) {
+    .modal-content,
+    .installed-app-content,
+    .custom-app-content,
+    .website-content,
+    .keyboard-shortcut-content {
+        width: calc(100% - 30px);
+        padding: 22px;
+    }
+}

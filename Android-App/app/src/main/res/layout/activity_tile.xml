@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Main layout for the Remote Pulse tile screen.
+
+    TileActivity.java uses this layout as the container
+    for displaying the 18 configurable Remote Pulse tiles.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#000000"
+
+    tools:context=".TileActivity">
+
+    <!--
+        Dynamic tile container.
+
+        TileActivity.java retrieves this GridLayout using
+        the tileGrid ID and creates the tile views at runtime.
+
+        Grid configuration:
+        - 3 columns
+        - 6 rows
+        - 18 total tile positions
+
+        wrap_content allows the GridLayout to take the size
+        required by its dynamically added children.
+
+        Default margins are disabled because TileActivity
+        calculates and applies tile dimensions and spacing.
+    -->
+    <GridLayout
+        android:id="@+id/tileGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:columnCount="3"
+        android:rowCount="6"
+
+        android:alignmentMode="alignMargins"
+        android:useDefaultMargins="false"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        INTERNET permission allows the application to communicate
+        with the Remote Pulse Spring Boot server.
+
+        Used for:
+        1. Fetching tile configurations.
+        2. Loading tile icons.
+        3. Sending tile launch requests.
+        4. Receiving Server-Sent Events (SSE).
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+    <!-- Main application configuration -->
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RemotePulse"
+        android:usesCleartextTraffic="true">
+
+        <!--
+            MainActivity is the launcher Activity.
+
+            It is the first screen displayed when the user
+            opens Remote Pulse.
+
+            The user enters the IP address and port of the
+            Spring Boot server here.
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <!--
+                MAIN identifies the application's entry point.
+                LAUNCHER makes this Activity appear in the app launcher.
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+
+        <!--
+            TileActivity displays the Remote Pulse tile interface.
+
+            It handles:
+            - Displaying the 18 tiles.
+            - Loading icons from the backend.
+            - Detecting physical phone orientation.
+            - Listening for tile configuration updates.
+            - Sending tile launch requests.
+
+            This Activity is not exported, so other applications
+            cannot directly launch it.
+
+            Portrait orientation keeps the grid fixed while
+            individual tile contents rotate.
+        -->
+        <activity
+            android:name=".TileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+    </application>
+
+</manifest>
