@@ -470,8 +470,8 @@ Their complete request and response schemas should be added after checking the c
 The Windows PC requires:
 
 - Windows operating system.
-- Java Development Kit compatible with the project (Java 23).
-- Maven.
+- Java Development Kit (JDK) 23.
+- Apache Maven.
 - MySQL Server.
 - A network connection shared with the Android device.
 
@@ -483,66 +483,12 @@ For Android development:
 
 ### 8.2 Database Setup
 
-Create the database in MySQL:
+Remote Pulse uses MySQL to store tile configurations.
+
+Create the database using MySQL Workbench or the MySQL command line:
 
 ```sql
 CREATE DATABASE remotepulse;
-```
-
-Configure the backend's database connection in its local configuration file.
-
-The database URL, username, and password must match the local MySQL installation.
-
-Do not commit database passwords or other private configuration values to GitHub.
-
-### 8.3 Start the Backend
-
-Open a terminal in the `Server` directory:
-
-```powershell
-cd "D:\Projects\Remote Pulse\Java variant\Test\Variant-3\Server"
-```
-
-Start the Spring Boot application:
-
-```powershell
-mvn spring-boot:run
-```
-
-The backend runs on port `8080`.
-
-The browser-based configuration interface is available at:
-
-```text
-http://localhost:8080/index.html
-```
-
-### 8.4 Connect the Android Application
-
-1. Start the Spring Boot server on the Windows PC.
-2. Identify the PC's local IPv4 address.
-3. Connect the Android device and PC to the same local network.
-4. Install and open the Remote Pulse Android application.
-5. Enter the PC's IP address and server port.
-6. Connect to the server.
-
-Use the PC's LAN IP address rather than `localhost` when connecting from Android. On a phone, `localhost` refers to the phone itself.
-
-Example server address:
-
-```text
-192.168.31.78:8080
-```
-
-The example address is illustrative; use the current IP address of the Windows PC.
-
-### 8.5 Network Requirements
-
-The Android device and Windows PC must be able to communicate over the local network.
-
-The Windows firewall must allow the required inbound traffic on port `8080`.
-
-The server must be running while the Android application is being used.
 
 ## 9. Technical Challenges and Solutions
 
