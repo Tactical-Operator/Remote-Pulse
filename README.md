@@ -38,48 +38,71 @@ Remote Pulse follows a client–server architecture consisting of three primary 
 
 MySQL provides persistent storage for tile configurations. The Windows operating system provides the environment in which configured applications and system operations are executed.
 
-### Architecture Diagram
+### 2.1 Architecture Diagram
 
 ```mermaid
 flowchart TB
-    A[Android Application]
-    W[Web Configuration Interface]
-
-    subgraph PC[Windows PC]
-        S[Spring Boot Server<br/>Port 8080]
-
-        subgraph BACKEND[Backend Modules]
-            T[Tile Module]
-            APP[Application Module]
-            I[Icon Module]
-            SYS[System Module]
-            N[Network Module]
-        end
-
-        DB[(MySQL Database)]
-        FS[Local Icon Storage]
-        PS[PowerShell Scripts]
-        JNA[JNA / Windows API Integration]
-        OS[Windows Operating System]
+    subgraph CLIENTS["Client Applications"]
+        ANDROID["Android Application<br/>Java"]
+        WEB["Web Configuration Interface<br/>HTML, CSS, JavaScript"]
     end
 
-    A <-->|REST API / HTTP| S
-    A <-->|Server-Sent Events| S
-    W <-->|HTTP / REST API| S
+    subgraph PC["Windows PC"]
+        subgraph SERVER["Spring Boot Server - Port 8080"]
+            STATIC["Static Resource Hosting"]
 
-    S --> BACKEND
-    T <--> DB
-    APP <--> DB
-    I --> FS
-    APP --> PS
-    SYS --> JNA
+            subgraph CONTROLLERS["Controller Layer"]
+                TC["Tile Controllers"]
+                AC["Application Controllers"]
+                IC["Custom Icon Controller"]
+                SC["System Button Controller"]
+                NC["Server Information Controller"]
+            end
+
+            subgraph SERVICES["Service Layer"]
+                TS["Tile Services"]
+                AS["Application Services"]
+                IS["Icon Services"]
+                SS["System Services"]
+                NS["Network Services"]
+            end
+
+            REPO["Tile Repository"]
+            SSE["SSE Event Publisher"]
+        end
+
+        DB[("MySQL Database<br/>remotepulse")]
+        ICONS[("Local Icon Storage<br/>data/icons")]
+        PS["PowerShell Scripts"]
+        JNA["JNA / Native Windows Integration"]
+        OS["Windows Operating System"]
+    end
+
+    ANDROID <-->|"HTTP / REST API"| TC
+    ANDROID <-->|"SSE: TILES_CHANGED"| SSE
+
+    WEB <-->|"HTTP / REST API"| CONTROLLERS
+    WEB <-->|"Static HTML, CSS, JS"| STATIC
+
+    TC --> TS
+    AC --> AS
+    IC --> IS
+    SC --> SS
+    NC --> NS
+
+    TS --> REPO
+    REPO <--> DB
+
+    AS --> PS
+    IS --> ICONS
+    SS --> JNA
     JNA --> OS
-    T --> OS
+    AS --> OS
 ```
 
-*The diagram represents the system's logical architecture. Individual module-to-component interactions should be checked against their implementations before treating every arrow as a direct method call.*
+*This is a logical representation of the application architecture. It illustrates the clients, backend layers, database, and Windows integration components. It does not imply that every module directly communicates with every component.*
 
-### 2.1 Android Client
+### 2.2 Android Client
 
 The Android application acts as the remote-control client.
 
@@ -91,7 +114,7 @@ When a user selects a tile, the Android application sends a launch request to th
 
 The Android application also maintains an SSE connection to receive notifications when tile configurations change.
 
-### 2.2 Spring Boot Server
+### 2.3 Spring Boot Server
 
 The Spring Boot application runs on the Windows PC on port `8080`.
 
@@ -110,7 +133,7 @@ Its responsibilities include:
 
 The backend is organized into functional packages rather than placing all controllers, services, and entities in one package.
 
-### 2.3 Web Configuration Interface
+### 2.4 Web Configuration Interface
 
 The browser-based configuration interface is served by the Spring Boot application.
 
@@ -120,7 +143,7 @@ It allows users to manage tile configurations without modifying the Android appl
 
 The interface communicates with backend endpoints to save application details, configure websites, discover installed applications, manage icons, and update existing tiles.
 
-### 2.4 Database Layer
+### 2.5 Database Layer
 
 Remote Pulse uses MySQL with Spring Data JPA and Hibernate.
 
@@ -139,7 +162,7 @@ The `Tile` entity contains the following fields:
 
 The database is named `remotepulse`.
 
-### 2.5 Windows Integration
+### 2.6 Windows Integration
 
 The Spring Boot server runs directly on Windows, allowing the backend to interact with the operating system.
 
@@ -217,11 +240,15 @@ Without SSE, the Android application would need to repeatedly request the tile l
 
 With SSE, the Android application maintains a connection to:
 
-`GET /api/tiles/events`
+```text
+GET /api/tiles/events
+```
 
 When a tile configuration changes, the backend publishes the event:
 
-`TILES_CHANGED`
+```text
+TILES_CHANGED
+```
 
 The Android application listens for this event and reloads its tile configurations.
 
@@ -276,7 +303,7 @@ This avoids manually writing SQL for every basic database operation and allows t
 
 ## 5. Application Features
 
-### Android Remote-Control Interface
+### 5.1 Android Remote-Control Interface
 
 - Connects to the Windows PC using its server IP address.
 - Retrieves the available tile configurations.
@@ -285,7 +312,7 @@ This avoids manually writing SQL for every basic database operation and allows t
 - Receives configuration-change notifications through SSE.
 - Refreshes tile data when the server sends `TILES_CHANGED`.
 
-### Tile Configuration
+### 5.2 Tile Configuration
 
 Each tile contains a name, type, target, and icon reference.
 
@@ -301,13 +328,13 @@ The supported tile types are:
 
 The configuration interface allows users to manage the tiles without changing the Android application code.
 
-### Installed Application Discovery
+### 5.3 Installed Application Discovery
 
 The application includes installed-application discovery functionality using Windows-specific automation.
 
 This makes it possible to identify applications available on the PC and use them when configuring Remote Pulse tiles.
 
-### Custom Icon Management
+### 5.4 Custom Icon Management
 
 The project supports custom icon operations through backend endpoints.
 
@@ -315,7 +342,7 @@ Icons are stored locally by the server and referenced by the application interfa
 
 This allows tile configurations to use application-specific or custom icons instead of relying exclusively on default icons.
 
-### Real-Time Configuration Synchronization
+### 5.5 Real-Time Configuration Synchronization
 
 When a tile configuration is changed through the web interface, the backend can notify connected Android clients using SSE.
 
@@ -358,7 +385,7 @@ TileRepository
      MySQL
         |
         v
-Tile Data
+    Tile Data
         |
         v
 Android Tile Interface
@@ -374,7 +401,9 @@ The Android application parses the JSON into `Tile` objects and displays the cor
 
 **Request:**
 
-`POST /api/tiles/slot/{slotNumber}/launch`
+```http
+POST /api/tiles/slot/{slotNumber}/launch
+```
 
 **Processing:**
 
@@ -454,7 +483,7 @@ Additional application discovery, website, installed-application, system-button,
 
 Their complete request and response schemas should be added after checking the controller methods and DTO classes.
 
-### SSE Event
+### 7.1 SSE Event
 
 | Property | Value |
 |---|---|
@@ -489,6 +518,115 @@ Create the database using MySQL Workbench or the MySQL command line:
 
 ```sql
 CREATE DATABASE remotepulse;
+```
+
+### 8.3 Configure the Backend (`application.properties`)
+
+Before starting the backend, configure the MySQL connection using your own local database credentials.
+
+Navigate to:
+
+```text
+Server/src/main/resources/application.properties
+```
+
+If the file does not exist, create it inside the `resources` directory.
+
+Add the following configuration:
+
+```properties
+# MySQL Database Configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/remotepulse
+spring.datasource.username=YOUR_MYSQL_USERNAME
+spring.datasource.password=YOUR_MYSQL_PASSWORD
+
+# Hibernate Configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# Server Configuration
+server.port=8080
+```
+
+Replace the placeholder values with your own MySQL credentials.
+
+For example, if your MySQL username is `root`, replace `YOUR_MYSQL_USERNAME` with `root`. Enter the password configured for your own MySQL installation.
+
+**Configuration properties:**
+
+| Property | Description |
+|---|---|
+| `spring.datasource.url` | MySQL server address, port, and database name |
+| `spring.datasource.username` | Local MySQL username |
+| `spring.datasource.password` | Local MySQL password |
+| `spring.jpa.hibernate.ddl-auto` | Allows Hibernate to update the database schema |
+| `spring.jpa.show-sql` | Displays SQL queries in the console |
+| `spring.jpa.properties.hibernate.dialect` | Specifies the MySQL dialect |
+| `server.port` | Port on which the Spring Boot server runs |
+
+**Important:**
+
+- Make sure MySQL Server is running before starting Remote Pulse.
+- Ensure that the `remotepulse` database exists.
+- Use your own database username and password.
+- The `application.properties` file contains machine-specific configuration and database credentials. Do not upload it to a public GitHub repository.
+- If `application.properties` is excluded through `.gitignore`, create your own local copy before running the backend.
+
+### 8.4 Start the Backend
+
+Open a terminal in the `Server` directory:
+
+```powershell
+cd "D:\Projects\Remote Pulse\Java variant\Test\Variant-3\Server"
+```
+
+Start the Spring Boot application:
+
+```powershell
+mvn spring-boot:run
+```
+
+Once the application starts successfully, the backend runs on port `8080`.
+
+The browser-based configuration interface is available at:
+
+```text
+http://localhost:8080/index.html
+```
+
+If the application fails to connect to MySQL, verify that:
+
+1. MySQL Server is running.
+2. The `remotepulse` database exists.
+3. The username and password in `application.properties` are correct.
+4. MySQL is listening on the configured port.
+
+### 8.5 Connect the Android Application
+
+1. Start the Spring Boot server on the Windows PC.
+2. Identify the PC's local IPv4 address.
+3. Connect the Android device and PC to the same local network.
+4. Install and open the Remote Pulse Android application.
+5. Enter the PC's IP address and server port.
+6. Connect to the server.
+
+Use the PC's LAN IP address rather than `localhost` when connecting from Android. On a phone, `localhost` refers to the phone itself, not the Windows PC.
+
+Example server address:
+
+```text
+192.168.31.78:8080
+```
+
+The example address is illustrative. Use the current IP address of your Windows PC.
+
+### 8.6 Network Requirements
+
+- The Android device and Windows PC must be able to communicate over the local network.
+- The Windows Firewall must allow inbound connections on port `8080`.
+- The Spring Boot server must remain running while the Android application is in use.
+- The PC's IP address must be reachable from the Android device.
 
 ## 9. Technical Challenges and Solutions
 
