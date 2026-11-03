@@ -8,6 +8,9 @@ A separate browser-based configuration interface allows users to manage the cont
 
 The project combines Java backend development, Android development, database persistence, Windows system integration, PowerShell automation, and real-time communication.
 
+<img width="1080" height="1920" alt="Screenshot_20261103-121910_Remote Pulse" src="https://github.com/user-attachments/assets/a14fcd5d-dc93-4119-b37e-38194c513565" />
+
+
 ---
 
 ## 1. The Problem Remote Pulse Solves
