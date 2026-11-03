@@ -602,31 +602,33 @@ If the application fails to connect to MySQL, verify that:
 3. The username and password in `application.properties` are correct.
 4. MySQL is listening on the configured port.
 
-### 8.5 Connect the Android Application
+### 8.5 Download and Install the Android Application
 
-1. Start the Spring Boot server on the Windows PC.
-2. Identify the PC's local IPv4 address.
-3. Connect the Android device and PC to the same local network.
-4. Install and open the Remote Pulse Android application.
-5. Enter the PC's IP address and server port.
-6. Connect to the server.
+The Android application is available as a pre-built APK in the project's `releases` directory.
 
-Use the PC's LAN IP address rather than `localhost` when connecting from Android. On a phone, `localhost` refers to the phone itself, not the Windows PC.
+**Download APK:** [Remote_Pulse_app.apk](releases/Remote_Pulse_app.apk)
 
-Example server address:
+Follow these steps to install the application:
 
-```text
-192.168.31.78:8080
-```
+1. Download `Remote_Pulse_app.apk` from the repository.
+2. Transfer the APK to your Android device if you downloaded it on your PC.
+3. Open the APK file on your Android device.
+4. If Android displays a security prompt, allow installation from that source.
+5. Tap **Install** and wait for the installation to complete.
+6. Open the Remote Pulse application.
 
-The example address is illustrative. Use the current IP address of your Windows PC.
+**Note:** The Android application requires Android 8.0 (API 26) or later.
 
-### 8.6 Network Requirements
+### 8.6 Connect and Use the Android Application
 
-- The Android device and Windows PC must be able to communicate over the local network.
-- The Windows Firewall must allow inbound connections on port `8080`.
-- The Spring Boot server must remain running while the Android application is in use.
-- The PC's IP address must be reachable from the Android device.
+Before connecting, make sure that the Spring Boot server is running on your Windows PC.
+
+#### Step 1: Find the Windows PC's IP Address
+
+Open Command Prompt or PowerShell on your Windows PC and execute:
+
+```powershell
+ipconfig
 
 ## 9. Technical Challenges and Solutions
 
