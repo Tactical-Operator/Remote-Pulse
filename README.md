@@ -633,6 +633,17 @@ Open Command Prompt or PowerShell on your Windows PC and execute:
 
 ```powershell
 ipconfig
+```
+
+Find the IPv4 address under the network adapter currently connected to your local network.
+
+For example:
+
+```text
+IPv4 Address: 192.168.31.78
+```
+
+Use your actual PC IP address. The address above is only an example.
 
 ## 9. Technical Challenges and Solutions
 
